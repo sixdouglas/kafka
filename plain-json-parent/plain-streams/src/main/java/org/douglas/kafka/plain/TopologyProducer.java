@@ -36,24 +36,24 @@ public class TopologyProducer {
     public Topology buildTopology() {
         StreamsBuilder builder = new StreamsBuilder();
 
-        ObjectMapperSerde<Customer> weatherStationSerde = new ObjectMapperSerde<>(Customer.class);
+        ObjectMapperSerde<Customer> customerSerde = new ObjectMapperSerde<>(Customer.class);
         ObjectMapperSerde<EnrichedOrder> aggregationSerde = new ObjectMapperSerde<>(EnrichedOrder.class);
 
         KeyValueBytesStoreSupplier storeSupplier = Stores.persistentKeyValueStore(CUSTOMER_STORE);
 
-        GlobalKTable<String, Customer> superModelGlobalKTable = builder.globalTable(
+        GlobalKTable<String, Customer> customerGlobalKTable = builder.globalTable(
                 CUSTOMER_TOPIC,
-                Consumed.with(Serdes.String(), weatherStationSerde));
+                Consumed.with(Serdes.String(), customerSerde));
 
         builder.stream(ORDER_TOPIC, Consumed.with(Serdes.String(), Serdes.String()))
                 .join(
-                        superModelGlobalKTable,
+                        customerGlobalKTable,
                         this::getKey,
-                        this::buildAggregatedSuperModel)
+                        this::buildComposedOrder)
                 .groupByKey()
                 .aggregate(
-                        this::buildNewAggregated,
-                        this::aggregateWithFmsData,
+                        this::buildNewEnrichedOrder,
+                        this::fillEnrichedOrder,
                         Materialized.<String, EnrichedOrder> as(storeSupplier)
                                 .withKeySerde(Serdes.String())
                                 .withValueSerde(aggregationSerde))
@@ -65,26 +65,34 @@ public class TopologyProducer {
         return builder.build();
     }
 
-    String getKey(String codeSm, Object ignored) {
-        return codeSm;
-    }
-
-    ComposedOrder buildAggregatedSuperModel(String orderAsString, Customer customer) {
-        Order fmsSuperModel = null;
+    String getKey(String orderId, String orderAsString) {
+        Order order;
         try {
-            fmsSuperModel = OBJECT_MAPPER.readValue(orderAsString, Order.class);
+            order = OBJECT_MAPPER.readValue(orderAsString, Order.class);
+            return order.customerId();
         } catch (JsonProcessingException e) {
-            LOG.error("Error deserializing FMS SM", e);
+            LOG.error("Error deserializing Order", e);
         }
 
-        return new ComposedOrder(customer, fmsSuperModel);
+        return null;
     }
 
-    private EnrichedOrder buildNewAggregated() {
+    ComposedOrder buildComposedOrder(String orderAsString, Customer customer) {
+        Order order = null;
+        try {
+            order = OBJECT_MAPPER.readValue(orderAsString, Order.class);
+        } catch (JsonProcessingException e) {
+            LOG.error("Error deserializing Order", e);
+        }
+
+        return new ComposedOrder(customer, order);
+    }
+
+    private EnrichedOrder buildNewEnrichedOrder() {
         return new EnrichedOrder(null, null, null, null, null);
     }
 
-    private EnrichedOrder aggregateWithFmsData(String key, ComposedOrder value, EnrichedOrder aggregation) {
+    private EnrichedOrder fillEnrichedOrder(String key, ComposedOrder value, EnrichedOrder aggregation) {
         return value.toAggregated();
     }
 }

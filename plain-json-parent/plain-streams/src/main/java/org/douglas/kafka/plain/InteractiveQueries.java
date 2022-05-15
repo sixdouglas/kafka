@@ -26,7 +26,7 @@ public class InteractiveQueries {
     KafkaStreams streams;
 
     public List<PipelineMetadata> getMetaData() {
-        return streams.allMetadataForStore(TopologyProducer.CUSTOMER_STORE)
+        return streams.streamsMetadataForStore(TopologyProducer.CUSTOMER_STORE)
                 .stream()
                 .map(m -> new PipelineMetadata(
                         m.hostInfo().host() + ":" + m.hostInfo().port(),

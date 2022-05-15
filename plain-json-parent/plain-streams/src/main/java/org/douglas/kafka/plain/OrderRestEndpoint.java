@@ -27,7 +27,7 @@ public class OrderRestEndpoint {
     int sslPort;
 
     @GET
-    @Path("/{id}")
+    @Path("/data/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWeatherStationData(@PathParam("id") String id) {

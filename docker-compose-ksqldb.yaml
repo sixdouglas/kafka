@@ -61,3 +61,30 @@ services:
                 bootstrap.servers: "broker:29092"
               schema-registry:
                 url: "http://schema-registry:8081"
+
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.25.1
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
+    ports:
+      - "9083:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: 'broker:29092'
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:0.25.1
+    container_name: ksqldb-cli
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true

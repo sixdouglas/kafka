@@ -36,6 +36,7 @@
     <modules>
         <module>avro-schema-parent</module>
         <module>plain-json-parent</module>
+        <module>ksqlDB-parent</module>
     </modules>
 
     <build>
