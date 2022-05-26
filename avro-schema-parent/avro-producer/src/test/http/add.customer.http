@@ -1,0 +1,13 @@
+### Send POST request with json body
+POST http://localhost:11001/v1/customers
+Content-Type: application/json
+
+{
+  "metadata": {"id": "1234577", "source": "manu", "type": "mine", "dataContentType": "onetype", "subject": "customer", "timestamp": "2022-05-26T09:51:26.543Z"},
+  "customerId": "54325",
+  "firstname": "Jeanne Michelle",
+  "lastname": "DUPONT",
+  "addresses": [
+    {"addressId": "1234", "road": "12 rue de la liberté", "postalCode": "59280", "city": "ARMENTIERES", "country": "FRANCE"}
+  ]
+}
