@@ -1,0 +1,37 @@
+{
+  "namespace": "org.douglas.kafka.avro.schema",
+  "type": "record",
+  "name": "Customer",
+  "fields": [
+    {"name": "metadata",
+      "type": ["null",{
+        "type": "record",
+        "name": "CloudEventMetadata",
+        "namespace": "io.cloudevents",
+        "fields": [
+          {"name": "id", "type": "string"},
+          {"name": "source", "type": "string"},
+          {"name": "type", "type": "string"},
+          {"name": "dataContentType", "type": "string"},
+          {"name": "subject", "type": "string"},
+          {"name": "timestamp", "type": "string"}
+        ]
+      }]
+    },
+    {"name": "customerId", "type": "string"},
+    {"name": "firstname", "type": "string"},
+    {"name": "lastname", "type": "string"},
+    {"name": "addresses", "type": ["null", { "type": "array", "items": {
+      "type": "record",
+      "name": "Address",
+      "fields": [
+        {"name": "addressId", "type": "string"},
+        {"name": "road", "type": "string"},
+        {"name": "postalCode", "type": "string"},
+        {"name": "city", "type": "string"},
+        {"name": "country", "type": "string"}
+      ] } } ]
+    }
+  ]
+}
+

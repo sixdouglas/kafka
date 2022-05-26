@@ -1,0 +1,65 @@
+{
+  "namespace": "org.douglas.kafka.avro.schema",
+  "type": "record",
+  "name": "EnrichedOrder",
+  "fields": [
+    {"name": "metadata",
+      "type": ["null",{
+        "type": "record",
+        "name": "CloudEventMetadata",
+        "namespace": "io.cloudevents",
+        "fields": [
+          {"name": "id", "type": "string"},
+          {"name": "source", "type": "string"},
+          {"name": "type", "type": "string"},
+          {"name": "dataContentType", "type": "string"},
+          {"name": "subject", "type": "string"},
+          {"name": "timestamp", "type": "string"}
+        ]
+      }]
+    },
+    {"name": "orderId", "type": "string"},
+    {"name": "customer", "type": ["null", {
+      "type": "record",
+      "name": "Customer",
+      "fields": [
+        {"name": "metadata", "type": ["null","io.cloudevents.CloudEventMetadata"]},
+        {"name": "customerId", "type": "string"},
+        {"name": "firstname", "type": "string"},
+        {"name": "lastname", "type": "string"},
+        {"name": "addresses", "type": ["null", { "type": "array", "items": {
+          "type": "record",
+          "name": "Address",
+          "fields": [
+            {"name": "addressId", "type": "string"},
+            {"name": "road", "type": "string"},
+            {"name": "postalCode", "type": "string"},
+            {"name": "city", "type": "string"},
+            {"name": "country", "type": "string"}
+          ] } } ]
+        }
+      ]}]},
+    {"name": "orderDate", "type": { "type": "long", "logicalType": "timestamp-millis"} },
+    {"name": "orderLines", "type": ["null", { "type": "array", "items": {
+      "type": "record",
+      "name": "OrderLine",
+      "fields": [
+        {"name": "lineId", "type": "string"},
+        {"name": "productId", "type": "string"},
+        {"name": "quantity", "type":
+          { "type":  "record",
+            "name": "BigDecimal",
+            "fields": [
+              {"name": "type", "type": "string"},
+              {"name": "logicalType", "type": "string"},
+              {"name": "precision", "type": "int"},
+              {"name": "scale", "type": "int"}
+            ]
+          }
+        },
+        {"name": "unitPrice", "type": "BigDecimal"}
+      ] } } ]
+    }
+  ]
+}
+

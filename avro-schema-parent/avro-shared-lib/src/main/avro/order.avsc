@@ -1,0 +1,36 @@
+{
+  "namespace": "org.douglas.kafka.avro.schema",
+  "type": "record",
+  "name": "Order",
+  "fields": [
+    {"name": "metadata",
+      "type": ["null",{
+        "type": "record",
+        "name": "CloudEventMetadata",
+        "namespace": "io.cloudevents",
+        "fields": [
+          {"name": "id", "type": "string"},
+          {"name": "source", "type": "string"},
+          {"name": "type", "type": "string"},
+          {"name": "dataContentType", "type": "string"},
+          {"name": "subject", "type": "string"},
+          {"name": "timestamp", "type": "string"}
+        ]
+      }]
+    },
+    {"name": "orderId", "type": "string"},
+    {"name": "customerId", "type": "string"},
+    {"name": "orderDate", "type": { "type": "long", "logicalType": "timestamp-millis"} },
+    {"name": "orderLines", "type": ["null", { "type": "array", "items": {
+      "type": "record",
+      "name": "OrderLine",
+      "fields": [
+        {"name": "lineId", "type": "string"},
+        {"name": "productId", "type": "string"},
+        {"name": "quantity", "type": "float"},
+        {"name": "unitPrice", "type": "float"}
+      ] } } ]
+    }
+  ]
+}
+
