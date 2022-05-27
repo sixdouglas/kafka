@@ -39,25 +39,15 @@
           ] } } ]
         }
       ]}]},
-    {"name": "orderDate", "type": { "type": "long", "logicalType": "timestamp-millis"} },
+    {"name": "orderDate", "type": { "type": "long", "logicalType": "timestamp-millis"}, "default": 0 },
     {"name": "orderLines", "type": ["null", { "type": "array", "items": {
       "type": "record",
       "name": "OrderLine",
       "fields": [
         {"name": "lineId", "type": "string"},
         {"name": "productId", "type": "string"},
-        {"name": "quantity", "type":
-          { "type":  "record",
-            "name": "BigDecimal",
-            "fields": [
-              {"name": "type", "type": "string"},
-              {"name": "logicalType", "type": "string"},
-              {"name": "precision", "type": "int"},
-              {"name": "scale", "type": "int"}
-            ]
-          }
-        },
-        {"name": "unitPrice", "type": "BigDecimal"}
+        {"name": "quantity", "type": "float"},
+        {"name": "unitPrice", "type": "float"}
       ] } } ]
     }
   ]

@@ -1,14 +1,45 @@
-### Send POST request with json body
+### Add new Order 12352
 POST http://localhost:11001/v1/orders
 Content-Type: application/json
 
 {
-  "metadata": {"id": "1234571", "source": "manu", "type": "mine", "dataContentType": "onetype", "subject": "order", "timestamp": "2022-05-26T08:14:26.543Z"},
-  "orderId": "12349",
-  "customerId": "54321",
-  "orderDate": "2022-05-26T08:15:24.456Z",
+  "metadata": {"id": "1235582", "source": "manu", "type": "mine", "dataContentType": "onetype", "subject": "order", "timestamp": "2022-05-27T21:17:26.543Z"},
+  "orderId": "12352",
+  "customerId": "54320",
+  "orderDate": "2022-05-27T21:17:24.456Z",
   "orderLines": [
     {"lineId": "765433", "productId": "456765", "quantity": 2.34, "unitPrice": 5.34},
     {"lineId": "765435", "productId": "2345", "quantity": 1.0, "unitPrice": 15.80}
+  ]
+}
+
+### Add Order 12351
+POST http://localhost:11001/v1/orders
+Content-Type: application/json
+
+{
+  "metadata": {"id": "1234573", "source": "manu", "type": "mine", "dataContentType": "onetype", "subject": "order", "timestamp": "2022-05-27T08:40:26.543Z"},
+  "orderId": "12351",
+  "customerId": "54320",
+  "orderDate": "2022-05-27T08:41:28.456Z",
+  "orderLines": [
+    {"lineId": "765433", "productId": "456765", "quantity": 2.34, "unitPrice": 5.34},
+    {"lineId": "765435", "productId": "2345", "quantity": 1.0, "unitPrice": 15.80}
+  ]
+}
+
+### Update Order 12351
+POST http://localhost:11001/v1/orders
+Content-Type: application/json
+
+{
+  "metadata": {"id": "1235582", "source": "manu", "type": "mine", "dataContentType": "onetype", "subject": "order", "timestamp": "2022-05-27T21:41:26.543Z"},
+  "orderId": "12351",
+  "customerId": "54320",
+  "orderDate": "2022-05-27T21:40:42.456Z",
+  "orderLines": [
+    {"lineId": "765433", "productId": "456765", "quantity": 2.34, "unitPrice": 5.34},
+    {"lineId": "765435", "productId": "2345", "quantity": 1.0, "unitPrice": 15.80},
+    {"lineId": "765436", "productId": "2346", "quantity": 2.0, "unitPrice": 16.80}
   ]
 }
