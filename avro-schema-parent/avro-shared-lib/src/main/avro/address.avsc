@@ -1,0 +1,13 @@
+{
+  "namespace": "org.douglas.kafka.avro.schema",
+  "type": "record",
+      "name": "Address",
+      "fields": [
+        {"name": "addressId", "type": "string"},
+        {"name": "road", "type": "string"},
+        {"name": "postalCode", "type": "string"},
+        {"name": "city", "type": "string"},
+        {"name": "country", "type": "string"}
+      ]
+}
+

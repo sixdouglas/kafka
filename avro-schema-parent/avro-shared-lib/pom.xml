@@ -15,6 +15,7 @@
 
     <properties>
         <avro-maven-plugin.version>1.10.2</avro-maven-plugin.version>
+        <avro.codegen.avsc.imports>cloud-event-metadata.avsc,order-line.avsc,address.avsc,order.avsc,customer.avsc</avro.codegen.avsc.imports>
     </properties>
     <dependencies>
         <dependency>

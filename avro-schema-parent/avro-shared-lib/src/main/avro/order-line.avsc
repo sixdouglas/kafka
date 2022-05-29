@@ -1,0 +1,12 @@
+{
+  "namespace": "org.douglas.kafka.avro.schema",
+  "type": "record",
+  "name": "OrderLine",
+  "fields": [
+    {"name": "lineId", "type": "string"},
+    {"name": "productId", "type": "string"},
+    {"name": "quantity", "type": "float"},
+    {"name": "unitPrice", "type": "float"},
+    {"name": "totalPrice", "type": ["null","float"], "default": null}
+  ]
+}

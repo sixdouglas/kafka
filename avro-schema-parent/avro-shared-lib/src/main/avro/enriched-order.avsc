@@ -3,53 +3,12 @@
   "type": "record",
   "name": "EnrichedOrder",
   "fields": [
-    {"name": "metadata",
-      "type": ["null",{
-        "type": "record",
-        "name": "CloudEventMetadata",
-        "namespace": "io.cloudevents",
-        "fields": [
-          {"name": "id", "type": "string"},
-          {"name": "source", "type": "string"},
-          {"name": "type", "type": "string"},
-          {"name": "dataContentType", "type": "string"},
-          {"name": "subject", "type": "string"},
-          {"name": "timestamp", "type": "string"}
-        ]
-      }]
-    },
+    {"name": "metadata", "type": ["null", "io.cloudevents.CloudEventMetadata"] },
     {"name": "orderId", "type": "string"},
-    {"name": "customer", "type": ["null", {
-      "type": "record",
-      "name": "Customer",
-      "fields": [
-        {"name": "metadata", "type": ["null","io.cloudevents.CloudEventMetadata"]},
-        {"name": "customerId", "type": "string"},
-        {"name": "firstname", "type": "string"},
-        {"name": "lastname", "type": "string"},
-        {"name": "addresses", "type": ["null", { "type": "array", "items": {
-          "type": "record",
-          "name": "Address",
-          "fields": [
-            {"name": "addressId", "type": "string"},
-            {"name": "road", "type": "string"},
-            {"name": "postalCode", "type": "string"},
-            {"name": "city", "type": "string"},
-            {"name": "country", "type": "string"}
-          ] } } ]
-        }
-      ]}]},
+    {"name": "customer", "type": ["null", "org.douglas.kafka.avro.schema.Customer"] },
     {"name": "orderDate", "type": { "type": "long", "logicalType": "timestamp-millis"}, "default": 0 },
-    {"name": "orderLines", "type": ["null", { "type": "array", "items": {
-      "type": "record",
-      "name": "OrderLine",
-      "fields": [
-        {"name": "lineId", "type": "string"},
-        {"name": "productId", "type": "string"},
-        {"name": "quantity", "type": "float"},
-        {"name": "unitPrice", "type": "float"}
-      ] } } ]
-    }
+    {"name": "orderPrice", "type": "float"},
+    {"name": "orderLines", "type": ["null", { "type": "array", "items": "org.douglas.kafka.avro.schema.OrderLine"} ] }
   ]
 }
 

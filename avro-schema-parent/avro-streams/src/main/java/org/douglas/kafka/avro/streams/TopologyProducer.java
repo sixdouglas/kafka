@@ -85,7 +85,7 @@ public class TopologyProducer {
     }
 
     private EnrichedOrder buildNewEnrichedOrder() {
-        return new EnrichedOrder(null, null, null, Instant.ofEpochSecond(0), null);
+        return new EnrichedOrder(null, null, null, Instant.ofEpochSecond(0), null, null);
     }
 
     private EnrichedOrder fillEnrichedOrder(String key, ComposedOrder value, EnrichedOrder aggregation) {

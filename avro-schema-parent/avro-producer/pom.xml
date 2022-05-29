@@ -22,6 +22,10 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-confluent-registry-avro</artifactId>
+        </dependency>
         <!-- Confluent registry libraries use JAX-RS client -->
         <dependency>
             <groupId>io.quarkus</groupId>

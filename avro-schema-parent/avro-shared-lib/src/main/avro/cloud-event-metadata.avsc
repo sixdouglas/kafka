@@ -1,0 +1,13 @@
+{
+  "namespace": "io.cloudevents",
+  "type": "record",
+  "name": "CloudEventMetadata",
+  "fields": [
+    {"name": "id", "type": "string"},
+    {"name": "source", "type": "string"},
+    {"name": "type", "type": "string"},
+    {"name": "dataContentType", "type": "string"},
+    {"name": "subject", "type": "string"},
+    {"name": "timestamp", "type": "string"}
+  ]
+}
