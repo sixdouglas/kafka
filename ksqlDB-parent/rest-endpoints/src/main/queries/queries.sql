@@ -3,7 +3,7 @@ CREATE STREAM customers (
     firstname VARCHAR,
     lastname VARCHAR,
     birthdate BIGINT)
-WITH (kafka_topic='ksqldb.streams.customers', PARTITIONS=2, REPLICAS=1, value_format='JSON');
+WITH (kafka_topic='ksqldb.streams.customers', PARTITIONS=1, REPLICAS=1, value_format='JSON');
 
 CREATE STREAM orders (
     order_id VARCHAR KEY,
@@ -11,7 +11,7 @@ CREATE STREAM orders (
     order_date BIGINT,
     total_amount DOUBLE,
     vat_amount DOUBLE)
-WITH (kafka_topic='ksqldb.streams.orders', PARTITIONS=2, REPLICAS=1, value_format='JSON');
+WITH (kafka_topic='ksqldb.streams.orders', PARTITIONS=1, REPLICAS=1, value_format='JSON');
 
 ----------------
 
@@ -59,7 +59,6 @@ INSERT INTO orders (order_id, customer_id, order_date, total_amount, vat_amount)
 INSERT INTO orders (order_id, customer_id, order_date, total_amount, vat_amount) values ('12346', '2345', 1654453589, 23.34, 1.90);
 INSERT INTO orders (order_id, customer_id, order_date, total_amount, vat_amount) values ('12347', '3456', 1654451589, 21.43, 2.20);
 INSERT INTO orders (order_id, customer_id, order_date, total_amount, vat_amount) values ('12348', '4567', 1654450589, 43.23, 2.34);
-INSERT INTO orders (order_id, customer_id, order_date, total_amount, vat_amount) values ('12344', '1234', 1654453589, 11.24, 0.60);
 
 ----------------
 
@@ -71,7 +70,6 @@ FROM orders_enriched;
 
 -- Lets update Tim's birthdate
 INSERT INTO customers (customer_id, firstname, lastname, birthdate) values ('3456', 'tim',  'six', 1054128400);
-INSERT INTO customers (customer_id, firstname, lastname, birthdate) values ('1234', 'Doug',  'SIX', 212279189);
 
 -- View the results
 SELECT *

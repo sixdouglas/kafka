@@ -257,7 +257,7 @@ CREATE STREAM customers (
     firstname VARCHAR,
     lastname VARCHAR,
     birthdate BIGINT)
-WITH (kafka_topic='ksqldb.streams.customers', PARTITIONS=1, REPLICAS=1, value_format='JSON');
+WITH (kafka_topic='ksqldb.streams.customers', PARTITIONS=2, REPLICAS=1, value_format='JSON');
 ```
 
 If the topic `ksqldb.streams.customers` doesn't exist it will be created. 
@@ -314,6 +314,8 @@ Query terminated
 ```
 
 If we insert a new event, updating either the order or the customer, changes will appear in the results.
+
+> **NOTE**: As you can see, even with partitioned topics the `table` - `table` join works perfectly.
 
 #### rest-endpoints
 
