@@ -31,14 +31,14 @@ There are two docker compose files. One with all but `ksqldb` server, the other 
 
 The Docker Compose contains 6 containers:
 
-| type       | instance name   | exposed ports       |
-|------------|-----------------|---------------------|
-| zookeeper  | zookeper        | -                   |
-| kafka      | broker          | 29092 / 9092 / 9101 |
-| registry   | schema-registry | 9081                |
-| akhq       | akhq            | 9082                |
-| ksqldb     | ksqldb-server   | 9083                |
-| ksqldb cli | ksql-cli        | -                   |
+| type       | instance name   | exposed ports       | compose file                                       |
+|------------|-----------------|---------------------|----------------------------------------------------|
+| zookeeper  | zookeper        | -                   | docker-compose.yaml<br/> docker-compose-ksqldb.yaml |
+| kafka      | broker          | 29092 / 9092 / 9101 | docker-compose.yaml<br/> docker-compose-ksqldb.yaml |
+| registry   | schema-registry | 9081                | docker-compose.yaml<br/> docker-compose-ksqldb.yaml     |
+| akhq       | akhq            | 9082                | docker-compose.yaml<br/> docker-compose-ksqldb.yaml     |
+| ksqldb     | ksqldb-server   | 9083                | docker-compose-ksqldb.yaml                         |
+| ksqldb cli | ksql-cli        | -                   | docker-compose-ksqldb.yaml                         |
 
 You can start the first 4 servers using this command:
 
@@ -46,7 +46,7 @@ You can start the first 4 servers using this command:
 docker compose -f docker-compose.yaml up
 ```
 
-Or, if you want the first 4 and the `ksqldb` server:  
+Or, if you want to start all services including the `ksqldb` server:  
 
 ```shell
 docker compose -f docker-compose-ksqldb.yaml up
@@ -224,7 +224,100 @@ http://localhost:10002/orders/data/12351
 
 ### KsqlDB
 
-To be done
+> **REMEMBER**: In order to start the Kafa and KSqlDB servers, you need to use the second specific compose file `docker-compose-ksqldb.yaml`.
+
+Then you'll be able to connect to the KSqlDB client to run commands with this command: 
+
+```shell
+docker exec -it ksqldb-server /bin/bash
+```
+
+Once you're in the server console, you can connect to KSqlDB starting the client like this: 
+
+```shell
+[appuser@ksqldb-server ~]$ ksql
+```
+
+Currently this project contains two sub-projects:
+
+* plain-sql
+* rest-endpoints
+
+#### plain-sql
+
+In this project there is only one SQL file:
+
+`ksqlDB-parent/plain-sql/src/main/queries/queries.sql`
+
+First step we create two _STREAMS_ from topics using the KSqlDB syntax:
+
+```sql 
+CREATE STREAM customers (
+    customer_id VARCHAR KEY,
+    firstname VARCHAR,
+    lastname VARCHAR,
+    birthdate BIGINT)
+WITH (kafka_topic='ksqldb.streams.customers', PARTITIONS=1, REPLICAS=1, value_format='JSON');
+```
+
+If the topic `ksqldb.streams.customers` doesn't exist it will be created. 
+
+We create another one for the `orders`.
+
+Then we create a table for each stream pointing to the last element of the stream by key: 
+
+```sql 
+CREATE TABLE customer_events AS
+    SELECT customer_id,
+           LATEST_BY_OFFSET(firstname) AS firstname,
+           LATEST_BY_OFFSET(lastname) AS lastname,
+           LATEST_BY_OFFSET(birthdate) AS birthdate
+    FROM customers
+    GROUP BY customer_id
+    EMIT CHANGES;
+```
+
+And finally we create another table joining the two previous ones:
+
+```sql 
+CREATE TABLE orders_enriched AS
+    SELECT order_id,
+           order_date,
+           total_amount,
+           vat_amount,
+           customers.customer_id,
+           firstname,
+           lastname,
+           birthdate
+    FROM order_events orders
+        INNER JOIN customer_events customers ON 
+            customers.customer_id = orders.customer_id
+    EMIT CHANGES;
+```
+
+We can now insert the data in the _STREAMS_ using old school SQL syntax:
+
+```sql 
+INSERT INTO customers (customer_id, firstname, lastname, birthdate) values ('2345', 'sand', 'six',  176552789);
+```
+
+And then when we query the `orders_enriched` table we have the enriched data.
+
+```shell 
+ksql> select * from orders_enriched;
++---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+
+|ORDER_ID             |ORDER_DATE           |TOTAL_AMOUNT         |VAT_AMOUNT           |CUSTOMERS_CUSTOMER_ID|FIRSTNAME            |LASTNAME             |BIRTHDATE            |
++---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+
+|12347                |1654451589           |22.66                |2.4                  |3456                 |tim                  |six                  |1054128400           |
+|12348                |1654450589           |43.23                |2.34                 |4567                 |kath                 |six                  |1101619589           |
+Query terminated
+```
+
+If we insert a new event, updating either the order or the customer, changes will appear in the results.
+
+#### rest-endpoints
+
+_WIP_
 
 ### Plain Json
 

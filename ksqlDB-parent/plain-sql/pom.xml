@@ -4,19 +4,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.douglas.kafka</groupId>
-        <artifactId>kafka-parent</artifactId>
+        <groupId>org.douglas.kafka.ksqldb</groupId>
+        <artifactId>ksqldb-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.douglas.kafka.ksqldb</groupId>
-    <artifactId>ksqldb-parent</artifactId>
+    <artifactId>plain-sql</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>plain-sql</module>
-        <module>rest-endpoints</module>
-    </modules>
 </project>

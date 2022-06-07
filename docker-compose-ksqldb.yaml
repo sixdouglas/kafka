@@ -27,7 +27,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
       KAFKA_LOG4J_LOGGERS: "kafka.controller=WARN"
       KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
       KAFKA_TOOLS_LOG4J_LOGLEVEL: ERROR
@@ -50,6 +50,10 @@ services:
   akhq:
     image: tchiotludo/akhq:0.20.0
     container_name: akhq
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
     ports:
       - "9082:8080"
     environment:
