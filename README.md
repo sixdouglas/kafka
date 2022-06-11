@@ -88,9 +88,9 @@ http://localhost:9082/ui/docker-kafka-server/topic
 
 This project contains 3 sub-projects:
 
-* avro-shared-lib
-* avro-producer
-* avro-streams
+* [avro-shared-lib](#avro-shared-lib)
+* [avro-producer](#avro-producer)
+* [avro-streams](#avro-streams)
 
 #### avro-shared-lib
 
@@ -240,10 +240,10 @@ Once you're in the server console, you can connect to KSqlDB starting the client
 
 Currently this project contains two sub-projects:
 
-* plain-sql
-* rest-endpoints
+* [ksqldb-plain-sql](#ksqldb-plain-sql)
+* [ksqldb-rest-endpoints](#ksqldb-rest-endpoints)
 
-#### plain-sql
+#### ksqldb-plain-sql
 
 In this project there is only one SQL file:
 
@@ -317,17 +317,35 @@ If we insert a new event, updating either the order or the customer, changes wil
 
 > **NOTE**: As you can see, even with partitioned topics the `table` - `table` join works perfectly.
 
-#### rest-endpoints
+#### ksqldb-rest-endpoints
 
-_WIP_
+This project is based on the previous one, but with a Rest Endpoints to make the content on the KSQLDB available to the world.
+
+There are 4 routes available:
+
+* `http://127.0.0.1:13002/restclient/orders/data/`
+* `http://127.0.0.1:13002/restclient/orders/data/{orderId}`
+* `http://127.0.0.1:13002/javaclient/orders/data/`
+* `http://127.0.0.1:13002/javaclient/orders/data/{orderId}`
+
+As of today, the `javaclient` routes do not work with a weird error message:
+
+```
+2022-06-10 19:14:05,274 ERROR [org.jbo.res.rea.com.cor.AbstractResteasyReactiveContext] (vert.x-eventloop-thread-0) Request failed: java.lang.NoSuchMethodError: 'io.vertx.core.json.JsonObject io.vertx.core.json.JsonObject.put(java.lang.String, java.lang.String)'
+    at io.confluent.ksql.api.client.impl.ClientImpl.makeQueryRequest(ClientImpl.java:527)
+    at io.confluent.ksql.api.client.impl.ClientImpl.streamQuery(ClientImpl.java:150)
+    at io.confluent.ksql.api.client.impl.ClientImpl.streamQuery(ClientImpl.java:131)
+    at io.confluent.ksql.api.client.KsqlDbClientConfig_ProducerMethod_buildKsqlDbClient_8ac6f9247c96d7e6c265baf6322e0d865219026a_ClientProxy.streamQuery(Unknown Source)
+    at org.douglas.kafka.ksqldb.rest.restclient.OrderRestEndpoint.getOrderData(OrderRestEndpoint.java:30)
+```
 
 ### Plain Json
 
 This project contains 3 sub-projects:
 
-* plain-shared-lib
-* plain-producer
-* plain-streams
+* [plain-shared-lib](#plain-shared-lib)
+* [plain-producer](#plain-producer)
+* [plain-streams](#plain-streams)
 
 #### plain-shared-lib
 

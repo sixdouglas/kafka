@@ -10,6 +10,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>rest-endpoints</artifactId>
+    <groupId>org.douglas.kafka.ksqldb.avro-schema</groupId>
+    <artifactId>ksqldb-avro-schema-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>ksqldb-avro-shared-lib</module>
+        <module>ksqldb-avro-streams</module>
+        <module>ksqldb-avro-producer</module>
+    </modules>
 </project>

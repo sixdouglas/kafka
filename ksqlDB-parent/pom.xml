@@ -15,8 +15,28 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <ksqldb.version>0.26.0</ksqldb.version>
+    </properties>
+
     <modules>
-        <module>plain-sql</module>
-        <module>rest-endpoints</module>
+        <module>ksqldb-avro-schema-parent</module>
+        <module>ksqldb-plain-sql</module>
+        <module>ksqldb-rest-endpoints</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>ksqlDB</id>
+            <name>ksqlDB</name>
+            <url>https://ksqldb-maven.s3.amazonaws.com/maven/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ksqlDB</id>
+            <url>https://ksqldb-maven.s3.amazonaws.com/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

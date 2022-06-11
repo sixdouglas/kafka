@@ -10,6 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>plain-sql</artifactId>
+    <artifactId>ksqldb-plain-sql</artifactId>
     <version>1.0-SNAPSHOT</version>
 </project>

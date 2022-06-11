@@ -1,0 +1,6 @@
+[{"header":{"queryId":"query_1654931437182","schema":"`ORDER_ID` STRING KEY, `ORDER_DATE` BIGINT, `TOTAL_AMOUNT` DOUBLE, `VAT_AMOUNT` DOUBLE, `CUSTOMERS_CUSTOMER_ID` STRING, `FIRSTNAME` STRING, `LASTNAME` STRING, `BIRTHDATE` BIGINT"}},
+  {"row":{"columns":["12345",1654452589,12.34,0.8,"1234","Doug","SIX",212279189]}},
+  {"row":{"columns":["12344",1654453589,11.24,0.6,"1234","Doug","SIX",212279189]}},
+  {"row":{"columns":["12346",1654453589,23.34,1.9,"2345","sand","six",176552789]}},
+  {"row":{"columns":["12347",1654451589,22.66,2.4,"3456","tim","six",1054128400]}},
+  {"row":{"columns":["12348",1654450589,43.23,2.34,"4567","kath","six",1101619589]}}]
